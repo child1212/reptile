@@ -41,6 +41,6 @@ for info in info_list:
         print('数据库插入操作错误回滚')
     id += 1
 db.close()
-#%%
+#
 
 
