@@ -5,6 +5,7 @@ import pymysql
 
 
 
+
 url = 'https://bj.ke.com/ershoufang/'
 
 r = requests.get(url)
