@@ -1,8 +1,9 @@
 #%%
 # python + pymysql 创建数据库 
 import pymysql
+from config import *
 
-area = 'xicheng'
+area = AREA
 # 创建连接
 conn = pymysql.connect(host='localhost',user='root',password='123456',charset='utf8mb4')
 # 创建游标
@@ -16,19 +17,22 @@ cursor.execute(sql)
 cursor.execute("use Houses;")
 
 #创建数据表
+
+
 sql_2 = '''CREATE TABLE `{area}_info` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `address` CHAR(40),
   `floor` CHAR(40),
-  `year` CHAR(40),
+  `year` INT,
   `type` CHAR(40),
-  `size` CHAR(40),
+  `size` FLOAT,
   `direction` CHAR(40),
   `totalPrice` CHAR(40),
-  `unitPrice` CHAR(40),
+  `unitPrice` FLOAT,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 '''
+
 sql_2 = sql_2.format(area=area)
 #执行命令
 cursor.execute(sql_2)
