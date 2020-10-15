@@ -18,17 +18,29 @@ cursor.execute("use Houses;")
 
 #创建数据表
 
+# sql_2 = '''CREATE TABLE `{area}_info` (
+#   `id` INT NOT NULL AUTO_INCREMENT,
+#   `address` CHAR(40),
+#   `floor` CHAR(40),
+#   `year` INT,
+#   `type` CHAR(40),
+#   `size` FLOAT,
+#   `direction` CHAR(40),
+#   `totalPrice` CHAR(40),
+#   `unitPrice` FLOAT,
+#   PRIMARY KEY (`id`)
+# ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+# '''
 
-sql_2 = '''CREATE TABLE `{area}_info` (
+sql_2 = '''CREATE TABLE `xiaoqu` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `address` CHAR(40),
-  `floor` CHAR(40),
-  `year` INT,
+  `xiaoqu` CHAR(40),
+  `area` CHAR(40),
+  `addr` CHAR(40),
   `type` CHAR(40),
-  `size` FLOAT,
-  `direction` CHAR(40),
-  `totalPrice` CHAR(40),
-  `unitPrice` FLOAT,
+  `year` CHAR(40),
+  `price` CHAR(40),
+  `subway` CHAR(40),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 '''
