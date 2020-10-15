@@ -7,7 +7,7 @@ from config import *
 
 url_p = 'https://bj.ke.com/ershoufang/{area}/pg{num}/'
 area = AREA
-for i in range(2,3):
+for i in range(1,100):
     print(i,end='\n')
     if i == 1:
         url = 'https://bj.ke.com/ershoufang/{area}/'.format(area=area)
