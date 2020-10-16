@@ -32,7 +32,7 @@ cursor.execute("use Houses;")
 # ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 # '''
 
-sql_2 = '''CREATE TABLE `chengjiao1` (
+sql_2 = '''CREATE TABLE `chengjiao2` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `xiaoqu` CHAR(40),
   `area` CHAR(40),

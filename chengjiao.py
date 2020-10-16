@@ -14,24 +14,27 @@ def get_total_count(url_p):
     return int(info.split(' ')[1])
 
 # AREA = 'yanqing'
-start = 1
-db = 'Houses'
-table = 'chengjiao'
-
-for AREA in AREA_LIST:
-    print(AREA)
-
-
+start = 82
+# db = 'Houses'
+table = 'chengjiao2'
+j = 16
+while j < len(AREA_LIST):
+    AREA = AREA_LIST[j]
     url_p = 'https://bj.ke.com/chengjiao/{area}/'.format(area=AREA)
-    total = get_total_count(url_p)
+    try:
+        total = get_total_count(url_p)
+    except:
+        print('hello world')
+        input()
+        continue
     if total % 30 == 0:
         pages = (total//30)
     else:
         pages = (total//30)+1
     pages = min(pages,100)
 
-
-    for i in range(start,pages+1):
+    i = start
+    while i < pages+1:
         # time.sleep(random.randint(0, 16))
         print('\n',i,'/',pages)
         # for i in range(1,2):
@@ -42,8 +45,12 @@ for AREA in AREA_LIST:
         r = requests.get(url)
         soup = BeautifulSoup(r.text,'lxml')
         info_list = soup.find_all(attrs={'class':'info'})
+        if len(info_list) == 0:
+            print('hello world')
+            input()
+            continue
 
-        db = pymysql.connect("localhost","root","123456",db)
+        db = pymysql.connect("localhost","root","123456",'Houses')
         cur_insert = db.cursor()
         for info in info_list:
             mass = info.find_all(attrs={'class':'title'})[0].get_text().replace('\n','').split(' ')
@@ -83,7 +90,9 @@ for AREA in AREA_LIST:
                 db.rollback()
                 print('数据库插入操作错误回滚')
         db.close()
+        i += 1
     print("finish")
+    j +=1
 
 
 
