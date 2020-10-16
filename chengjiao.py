@@ -12,8 +12,16 @@ def get_total_count(url_p):
     info_list = soup.find_all(attrs={'class':"total fl"})
     info = info_list[0].get_text()
     return int(info.split(' ')[1])
+
+# AREA = 'yanqing'
+start = 1
+db = 'Houses'
+table = 'chengjiao'
+
 for AREA in AREA_LIST:
     print(AREA)
+
+
     url_p = 'https://bj.ke.com/chengjiao/{area}/'.format(area=AREA)
     total = get_total_count(url_p)
     if total % 30 == 0:
@@ -21,10 +29,12 @@ for AREA in AREA_LIST:
     else:
         pages = (total//30)+1
     pages = min(pages,100)
-    for i in range(1,pages+1):
-        time.sleep(random.randint(0, 16))
+
+
+    for i in range(start,pages+1):
+        # time.sleep(random.randint(0, 16))
         print('\n',i,'/',pages)
-    # for i in range(1,2):
+        # for i in range(1,2):
         if i == 1:
             url = 'https://bj.ke.com/chengjiao/{area}/'.format(area=AREA)
         else:
@@ -33,39 +43,37 @@ for AREA in AREA_LIST:
         soup = BeautifulSoup(r.text,'lxml')
         info_list = soup.find_all(attrs={'class':'info'})
 
-        # addr = info_list[0].find_all(attrs={'class':'positionInfo'})[0].get_text().replace('\n','\t').replace('\t',',').replace('|',',').replace(' ','').replace(',,',',').replace(',/',',')[1:-1:]
-        # price = info_list[0].find_all(attrs={'class':'totalPrice'})[0].get_text()
-        # subway = info_list[0].find_all(attrs={'class':'tagList'})[0].get_text()
-        db = pymysql.connect("localhost","root","123456","Houses")
+        db = pymysql.connect("localhost","root","123456",db)
         cur_insert = db.cursor()
         for info in info_list:
+            mass = info.find_all(attrs={'class':'title'})[0].get_text().replace('\n','').split(' ')
             try:
-                # xiaoqu = info.find_all(attrs={'class':'title'})[0].get_text().replace('\n','')
-                # posi = info.find_all(attrs={'class':'positionInfo'})[0].get_text().replace('\n','\t').replace('\t',',').replace('|',',').replace(' ','').replace(',,',',').replace(',/',',')[1:-1:]
-                # inf = posi.split(',')
-                # addr,addr_1,typ,year = inf[0],inf[1],inf[2],inf[3]
-                mass = info.find_all(attrs={'class':'title'})[0].get_text().replace('\n','').split(' ')
-                sub = info.find_all(attrs={'class':'dealHouseTxt'})[0].get_text().replace('\n','').replace('年','年,').split(',')
-                houseInfo = info.find_all(attrs={'class':'houseInfo'})[0].get_text().replace('\n','').replace(' ','').split('|')
-                positionInfo = info.find_all(attrs={'class':'positionInfo'})[0].get_text().replace('\n','').replace(' ','').replace(')','),').split(',')
-
-
-                xiaoqu = mass[0]
+                sub = info.find_all(attrs={'class':'dealHouseTxt'})[0].get_text().replace('\n','').replace('五年','五年,').replace('两年','两年,').split(',')
+            except:
+                sub = ['','']
+            houseInfo = info.find_all(attrs={'class':'houseInfo'})[0].get_text().replace('\n','').replace(' ','').split('|')
+            positionInfo = info.find_all(attrs={'class':'positionInfo'})[0].get_text().replace('\n','').replace(' ','').replace(')','),').split(',')
+            xiaoqu = mass[0]
+            try:
                 year = positionInfo[1]
-                louceng = positionInfo[0]
-                huxing = mass[1]
-                zhuangxiu = houseInfo[1]
-                fangxiang = houseInfo[0]
-                size = mass[2]
-                date = info.find_all(attrs={'class':'dealDate'})[0].get_text().replace('\n','').replace(" ",'')
-                price = info.find_all(attrs={'class':'totalPrice'})[0].get_text().replace('\n','').replace(" ",'')
+            except:
+                continue
+            louceng = positionInfo[0]
+            huxing = mass[1]
+            zhuangxiu = houseInfo[1]
+            fangxiang = houseInfo[0]
+            size = mass[2]
+            date = info.find_all(attrs={'class':'dealDate'})[0].get_text().replace('\n','').replace(" ",'')
+            price = info.find_all(attrs={'class':'totalPrice'})[0].get_text().replace('\n','').replace(" ",'')
+            if len(sub) == 1:
+                duration = ''
+                subway = sub[0]
+            else:
                 duration = sub[0]
                 subway = sub[1]
-                unitPrice = info.find_all(attrs={"class":"unitPrice"})[0].get_text().replace(' ','')
+            unitPrice = info.find_all(attrs={"class":"unitPrice"})[0].get_text().replace(' ','')
 
-                sql_insert ="""insert into chengjiao(xiaoqu,area,year,louceng,huxing,zhuangxiu,fangxiang,size,price,duration,subway,unitPrice,date) values (\"{xiaoqu}\",\"{area}\",\"{year}\",\"{louceng}\",\"{huxing}\",\"{zhuangxiu}\",\"{fangxiang}\",\"{size}\",\"{price}\",\"{duration}\",\"{subway}\",\"{unitPrice}\",\"{date}\")""".format(xiaoqu=xiaoqu,area=AREA,year=year,louceng=louceng,huxing=huxing,zhuangxiu=zhuangxiu,fangxiang=fangxiang,size=size,price=price,duration=duration,subway=subway,unitPrice=unitPrice,date=date)
-            except:
-                pass
+            sql_insert ="""insert into {table}(xiaoqu,area,year,louceng,huxing,zhuangxiu,fangxiang,size,price,duration,subway,unitPrice,date) values (\"{xiaoqu}\",\"{area}\",\"{year}\",\"{louceng}\",\"{huxing}\",\"{zhuangxiu}\",\"{fangxiang}\",\"{size}\",\"{price}\",\"{duration}\",\"{subway}\",\"{unitPrice}\",\"{date}\")""".format(xiaoqu=xiaoqu,area=AREA,year=year,louceng=louceng,huxing=huxing,zhuangxiu=zhuangxiu,fangxiang=fangxiang,size=size,price=price,duration=duration,subway=subway,unitPrice=unitPrice,date=date,table=table)
             try:
                 cur_insert.execute(sql_insert)
                 # 提交
@@ -75,8 +83,7 @@ for AREA in AREA_LIST:
                 db.rollback()
                 print('数据库插入操作错误回滚')
         db.close()
-print("finish")
-
+    print("finish")
 
 
 
