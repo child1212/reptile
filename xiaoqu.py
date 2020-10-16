@@ -41,7 +41,7 @@ for AREA in AREA_LIST:
                 inf = posi.split(',')
                 addr,addr_1,typ,year = inf[0],inf[1],inf[2],inf[3]
                 price = info.find_all(attrs={'class':'totalPrice'})[0].get_text().replace('\n','')
-                subway = info_list[0].find_all(attrs={'class':'tagList'})[0].get_text().replace('\n','')
+                subway = info.find_all(attrs={'class':'tagList'})[0].get_text().replace('\n','')
                 sql_insert ="""insert into xiaoqu(xiaoqu,area,addr,type,year,price,subway) values (\"{xiaoqu}\",\"{addr}\",\"{addr_1}\",\"{typ}\",\"{year}\",\"{price}\",\"{subway}\")""".format(xiaoqu=xiaoqu,addr=addr,addr_1=addr_1,year=year,typ=typ,price=price,subway=subway)
             except:
                 pass
