@@ -22,7 +22,7 @@ table = 'chengjiao2'
 i = start
 while i < 5:
     # time.sleep(random.randint(0, 16))
-    print('\n',i,'/',pages)
+    print('\n',i,'/')
     # for i in range(1,2):
     if i == 1:
         url = 'https://bj.ke.com/chengjiao/'
@@ -87,7 +87,6 @@ while i < 5:
     db.close()
     i += 1
 print("finish")
-j +=1
 
 
 
