@@ -32,21 +32,35 @@ cursor.execute("use Houses;")
 # ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 # '''
 
-sql_2 = '''CREATE TABLE `chengjiao2` (
+sql_2 = '''CREATE TABLE `chengjiao4` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `xiaoqu` CHAR(40),
-  `area` CHAR(40),
-  `year` CHAR(40),
-  `louceng` CHAR(40),
-  `huxing` CHAR(40),
-  `zhuangxiu` CHAR(40),
-  `fangxiang` CHAR(40),
-  `size` CHAR(40),
-  `date` CHAR(40),
-  `price` CHAR(40),
-  `duration` CHAR(40),
-  `subway` CHAR(40),
-  `unitPrice` CHAR(40),
+  `小区` CHAR(40),
+  `城区` CHAR(40),
+  `建成年代` CHAR(40),
+  `所在楼层` CHAR(40),
+  `房屋户型` CHAR(40),
+  `装修情况` CHAR(40),
+  `房屋朝向` CHAR(40),
+  `建筑面积` CHAR(40),
+  `成交时间` CHAR(40),
+  `总价` CHAR(40),
+  `房屋年限` CHAR(40),
+  `地铁` CHAR(40),
+  `单价` CHAR(40),
+  `户型结构` CHAR(40),
+  `套内面积` CHAR(40),
+  `建筑类型` CHAR(40),
+  `建筑结构` CHAR(40),
+  `供暖方式` CHAR(40),
+  `梯户比例` CHAR(40),
+  `配备电梯` CHAR(40),
+  `链家编号` CHAR(40),
+  `交易权属` CHAR(40),
+  `挂牌时间` CHAR(40),
+  `房屋用途` CHAR(40),
+  `房权所属` CHAR(40),
+
+
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 '''
