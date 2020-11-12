@@ -91,7 +91,7 @@ while run < 100:
             area = ''
 
         sql_insert ="""insert into {table}(xiaoqu,area,year,louceng,huxing,zhuangxiu,fangxiang,size,price,duration,subway,unitPrice,date) values (\"{xiaoqu}\",\"{area}\",\"{year}\",\"{louceng}\",\"{huxing}\",\"{zhuangxiu}\",\"{fangxiang}\",\"{size}\",\"{price}\",\"{duration}\",\"{subway}\",\"{unitPrice}\",\"{date}\")""".format(xiaoqu=xiaoqu,area=area,year=year,louceng=louceng,huxing=huxing,zhuangxiu=zhuangxiu,fangxiang=fangxiang,size=size,price=price,duration=duration,subway=subway,unitPrice=unitPrice,date=date,table=table)
-        if date > '2020.10.04':
+        if date > '2020.10.13':
             try:
                 cur_insert.execute(sql_insert)
                 # 提交
@@ -102,6 +102,7 @@ while run < 100:
                 print('数据库插入操作错误回滚')
         else:
             run = 101
+            break
     db.close()
     run += 1
 print("finish")
