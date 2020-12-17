@@ -6,6 +6,12 @@ import random
 import time
 from config import *
 
+db = pymysql.connect("localhost","root","123456",'Houses')
+cursor_search = db.cursor()
+sql = "SELECT 成交时间 FROM houses.chengjiao3 order by 成交时间 desc limit 1;"
+cursor_search.execute(sql)
+latest = cursor_search.fetchall()[0][0]
+db.close()
 
 # AREA = 'yanqing'
 start = 1
@@ -102,7 +108,7 @@ while run < 101:
         fangquan = infomation['房权所属']
 
         sql_insert ="""insert into {table}(小区,城区,建成年代,所在楼层,房屋户型,装修情况,房屋朝向,建筑面积,成交时间,总价,房屋年限,地铁,单价,户型结构,套内面积,建筑类型,建筑结构,供暖方式,梯户比例,配备电梯,链家编号,交易权属,挂牌时间,房屋用途,房权所属) values (\"{xiaoqu}\",\"{area}\",\"{year}\",\"{louceng}\",\"{huxing}\",\"{zhuangxiu}\",\"{fangxiang}\",\"{size}\",\"{date}\",\"{price}\",\"{duration}\",\"{subway}\",\"{unitPrice}\",\"{huxingjiegou}\",\"{taonei}\",\"{leixing}\",\"{jianzhujiegou}\",\"{gongnuan}\",\"{tihu}\",\"{dianti}\",\"{liangjia}\",\"{quanshu}\",\"{gpshijian}\",\"{yongtu}\",\"{fangquan}\")""".format(xiaoqu=xiaoqu,area=area,year=year,louceng=louceng,huxing=huxing,zhuangxiu=zhuangxiu,fangxiang=fangxiang,size=size,price=price,duration=duration,subway=subway,unitPrice=unitPrice,date=date,table=table,huxingjiegou=huxingjiegou,taonei=taonei,leixing=leixing,jianzhujiegou=jianzhujiegou,gongnuan=gongnuan,tihu=tihu,dianti=dianti,liangjia=liangjia,quanshu=quanshu,gpshijian=gpshijian,yongtu=yongtu,fangquan=fangquan)
-        if date > '2020.11.11':
+        if date > latest:
             try:
                 cur_insert.execute(sql_insert)
                 # 提交
@@ -118,6 +124,3 @@ while run < 101:
     run += 1
 print("finish")
 
-
-
-# %%
