@@ -4,7 +4,7 @@ import requests
 import pymysql
 import random
 import time
-from config import *
+
 #获取当前最新日期，并赋值给latest
 db = pymysql.connect("localhost","root","123456",'Houses')
 cursor_search = db.cursor()
